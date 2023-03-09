@@ -56,7 +56,7 @@ function enBuyukTamsayiyiBul(tamsayilar) {
   let max = 0;
   for (let i = 0; i < tamsayilar.length; i++) {
     const element = tamsayilar[i];
-    if (tamsayilar[i] > max) {
+    if (element.tamsayi > max) {
       max = element.tamsayi;
     }
   }
@@ -101,11 +101,48 @@ for (let i = 0; i < 6; i++) {
   console.log(sayac.asagiSay());
 }
 
+// function Mevsimler() {
+//   /**
+//    * [Görev 5A] Mevsimler , bir mevsimler nesnesi oluşturur
+//    */
+//   const mevsimler = { 1: "yaz", 2: "sonbahar", 3: "kış", 4: "ilkbahar" };
+//   // ✨ gerekli propları ekleyin
+//   let i = 1;
+
+//   let mevsim;
+//   /**
+//    * [Görev 5B] sonraki metodu bir sonraki mevsimi gösterir
+//    * @returns {string} - bir sonraki mevsim "yaz" olarak yüklenir
+//    *
+//    * ÖRNEK
+//    * const mevsimler = new Mevsimler()
+//    * mevsimler.sonraki() // "yaz" döndürür
+//    * mevsimler.sonraki() // "sonbahar" döndürür
+//    * mevsimler.sonraki() // "kış" döndürür
+//    * mevsimler.sonraki() // "ilkbahar" döndürür
+//    * mevsimler.sonraki() // "yaz" döndürür
+//    */
+//   this.sonraki = () => {
+//     // ✨ kodlar buraya
+//     if (i < 4) {
+//       mevsim = mevsimler[Object.keys(mevsimler)[i]];
+//       i++;
+//     } else if ((i = 4)) {
+//       let j = 1;
+
+//       mevsim = "yaz";
+//       i = 1;
+//     }
+
+//     return mevsim;
+//   };
+// }
+
 function Mevsimler() {
   /**
    * [Görev 5A] Mevsimler , bir mevsimler nesnesi oluşturur
    */
-  const mevsimler = { 1: "ilkbahar", 2: "yaz", 3: "sonbahar", 4: "kış" };
+  const mevsimler = { 1: "yaz", 2: "sonbahar", 3: "kış", 4: "ilkbahar" };
   // ✨ gerekli propları ekleyin
   let mevsim;
   let i = 0;
@@ -123,14 +160,9 @@ function Mevsimler() {
    */
   this.sonraki = () => {
     // ✨ kodlar buraya
-    if (i < 4) {
-      mevsim = mevsimler[Object.keys(mevsimler)[i]];
-      i++;
-    } else {
-      i = 0;
-      mevsim = mevsimler[Object.keys(mevsimler)[0]];
-      i++;
-    }
+    console.log(i);
+    mevsim = mevsimler[Object.keys(mevsimler)[i]];
+    i = (i + 1) % 4;
     return mevsim;
   };
 }
@@ -173,7 +205,7 @@ function Araba(isim, depo, kml) {
     // ✨ kodlar buraya
     let kalanYol = this.kalanYol;
     if (this.kalanYol < gidilecekyol) {
-      gidilecekyol = 0;
+      gidilecekyol = kalanYol;
     }
     kalanYol -= gidilecekyol;
     console.log(`kalan yol: ${kalanYol}`);
@@ -201,7 +233,13 @@ function Araba(isim, depo, kml) {
     if (litre > 20) {
       litre = 20;
     }
-    this.depo = litre * this.kml;
+    while (this.depo <= 600) {
+      for (let i = litre; i <= 20; i++) {
+        this.depo = i * this.kml;
+        i++;
+      }
+    }
+
     return this.depo;
   };
 }
@@ -233,8 +271,17 @@ function asenkronCiftSayi(sayi) {
   //   return true;
   // }
   // return false;
-  return sayi % 2 == 0 ? true : false;
+  // return sayi % 2 == 0 ? true : false;
+  return new Promise((res) => {
+    res(sayi % 2 == 0);
+  });
 }
+asenkronCiftSayi(5).then((res) => {
+  console.log("değer:", res);
+});
+asenkronCiftSayi(10).then((res) => {
+  console.log("değer:", res);
+});
 
 module.exports = {
   nesneyiTrimle,

@@ -32,9 +32,22 @@ describe("[Görev 4] Sayici", () => {
   beforeEach(() => {
     sayici = new utils.Sayici(3); // her test yeni bir sayı ile başlatılıyor
   });
-  // test('[6] sayici.asagiSay ilk çağırılışında başlangıç sayışını yapıyor', () => {})
-  // test('[7] sayici.asagiSay İKİNCİ çağırılışında başlangıç eksi 1 sayıyor', () => {})
-  // test('[8] sayıcı sonunda sıfıra ulaşır ama daha aşağı saymaz', () => {})
+  test("[6] sayici.asagiSay ilk çağırılışında başlangıç sayışını yapıyor", () => {
+    const actual = sayici.asagiSay();
+    expect(actual).toBe(3);
+  });
+  test("[7] sayici.asagiSay İKİNCİ çağırılışında başlangıç eksi 1 sayıyor", () => {
+    sayici.asagiSay();
+    const actual = sayici.asagiSay();
+    expect(actual).toBe(2);
+  });
+  test("[8] sayıcı sonunda sıfıra ulaşır ama daha aşağı saymaz", () => {
+    for (let i = 0; i < 1000; i++) {
+      sayici.asagiSay();
+    }
+    let actual = sayici.asagiSay();
+    expect(actual).toBe(0);
+  });
 });
 
 describe("[Görev 5] Mevsimler", () => {
@@ -42,12 +55,43 @@ describe("[Görev 5] Mevsimler", () => {
   beforeEach(() => {
     mevsimler = new utils.Mevsimler(); // her test yeni bir mevsimle başlar
   });
-  // test('[9] mevsimler.sonraki İLK çağırılışında "yaz" döndürüyor', () => {})
-  // test('[10] mevsimler.sonraki İKİNCİ çağırılışında "sonbahar" döndürüyor', () => {})
-  // test('[11] mevsimler.sonraki ÜÇÜNCÜ çağırılışında "kış" döndürüyor', () => {})
-  // test('[12] mevsimler.sonraki DÖRDÜNCÜ çağırılışında "ilkbahar" döndürüyor', () => {})
-  // test('[13] mevsimler.sonraki BEŞİNCİ çağırılışında "yaz" döndürüyor', () => {})
-  // test('[14] mevsimler.sonraki KIRKINCI çağırılışında "ilkbahar" döndürüyor', () => {})
+  test('[9] mevsimler.sonraki İLK çağırılışında "yaz" döndürüyor', () => {
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("yaz");
+  });
+  test('[10] mevsimler.sonraki İKİNCİ çağırılışında "sonbahar" döndürüyor', () => {
+    mevsimler.sonraki();
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("sonbahar");
+  });
+  test('[11] mevsimler.sonraki ÜÇÜNCÜ çağırılışında "kış" döndürüyor', () => {
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("kış");
+  });
+  test('[12] mevsimler.sonraki DÖRDÜNCÜ çağırılışında "ilkbahar" döndürüyor', () => {
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("ilkbahar");
+  });
+  test('[13] mevsimler.sonraki BEŞİNCİ çağırılışında "yaz" döndürüyor', () => {
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    mevsimler.sonraki();
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("yaz");
+  });
+  test('[14] mevsimler.sonraki KIRKINCI çağırılışında "ilkbahar" döndürüyor', () => {
+    for (let i = 1; i < 40; i++) {
+      mevsimler.sonraki();
+    }
+    let actual = mevsimler.sonraki();
+    expect(actual).toBe("ilkbahar");
+  });
 });
 
 describe("[Görev 6] Araba", () => {
@@ -55,10 +99,27 @@ describe("[Görev 6] Araba", () => {
   beforeEach(() => {
     focus = new utils.Araba("focus", 20, 30); // her test yeni bir araba oluşturur
   });
-  // test('[15] arabayı sürünce güncellenmiş odometer döndürüyor', () => {})
-  // test('[16] arabayı sürmek benzin tüketiyor', () => {})
-  // test('[17] benzinalma arabayı sürmeye izin veriyor', () => {})
-  // test('[18] dolu depoya benzin alma etki etmiyor', () => {})
+  test("[15] arabayı sürünce güncellenmiş odometer döndürüyor", () => {
+    expect(focus.sur(100)).toBe(100);
+    expect(focus.sur(100)).toBe(200);
+    expect(focus.sur(100)).toBe(300);
+    expect(focus.sur(200)).toBe(500);
+    expect(focus.sur(200)).toBe(600);
+  });
+  test("[16] arabayı sürmek benzin tüketiyor", () => {
+    focus.sur(300);
+    expect(focus.depo).toBe(10);
+  });
+  test("[17] benzinalma arabayı sürmeye izin veriyor", () => {
+    focus.sur(600);
+    focus.benzinal(10);
+    focus.sur(100);
+    expect(focus.odometer).toBe(700);
+  });
+  test("[18] dolu depoya benzin alma etki etmiyor", () => {
+    focus.benzinal(5);
+    expect(focus.depo).toBe(20);
+  });
 });
 
 describe("[Görev 7] asenkronCiftSayi", () => {
